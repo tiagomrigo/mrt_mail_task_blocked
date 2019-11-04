@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="0">
+
+        <!-- Mail sent when a task is blocked -->
+        <record id="email_project_task_blocked" model="mail.template">
+            <field name="name">Task Blocked</field>
+            <field name="model_id" ref="project.model_project_task"/>
+            <field name="subject">Task Blocked (Ref. Project ${object.project_id.name})</field>
+            <field name="body_html" type="html">
+                <div>
+                    Dear ${object.name},<br/>
+                    A Task has been Blocked!
+
+                    <p style="border-left: 1px solid #8e0000; margin-left: 30px;">
+                        <strong>REFERENCES</strong><br />
+                        Task: <strong>${object.name}</strong><br />
+                        Project: <strong>${object.project_id.name}</strong><br />
+
+                        % if object.user_id:
+                        % if object.user_id.email:
+                        Your Contact: <a href="mailto:${user.email or ''}?subject=Task%20${object.name}">${user.name}</a>
+                        % else:
+                        Your Contact: ${object.user_id.name}
+                        % endif
+                        % endif
+                    </p>
+
+                    Thank you for your enquiry.<br />
+                    If you have any questions, please let us know.
+                    <br/><br/>
+                    Thank you,
+                    <br/>
+                </div>
+            </field>
+        </record>
+    </data>
+</odoo>
